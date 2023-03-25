@@ -24,7 +24,7 @@ const str = galleryItems
 
 containerEl.insertAdjacentHTML('beforeend', str);
 
-let lightbox = new SimpleLightbox('.gallery a', {
+new SimpleLightbox('.gallery a', {
   captionsData: 'alt',
   captionDelay: 250,
 });
