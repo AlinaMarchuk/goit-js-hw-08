@@ -9,14 +9,12 @@ const refs = {
 };
 
 refs.formEl.addEventListener('submit', onFormElSubmit);
-refs.inputEl.addEventListener('input', throttle(onInputElInput, 500));
-refs.textareaEl.addEventListener('input', throttle(onTextareaInput, 500));
+refs.formEl.addEventListener('input', throttle(onFormElInput, 500));
 
 checkStorage();
 
 function checkStorage() {
   const savedInfo = getCurrentObj(STORAGE_KEY);
-  console.log(savedInfo);
   if (savedInfo.email) {
     refs.inputEl.value = savedInfo.email;
   }
@@ -35,17 +33,29 @@ function getCurrentObj(key) {
   }
 }
 
-function onInputElInput(e) {
+function onFormElInput(e) {
   const currentObj = getCurrentObj(STORAGE_KEY);
-  currentObj.email = e.target.value;
+  if (e.target.nodeName === 'INPUT') {
+    currentObj.email = e.target.value;
+  }
+  if (e.target.nodeName === 'TEXTAREA') {
+    currentObj.message = e.target.value;
+  }
   localStorage.setItem(STORAGE_KEY, JSON.stringify(currentObj));
 }
 
-function onTextareaInput(e) {
-  const currentObj = getCurrentObj(STORAGE_KEY);
-  currentObj.message = e.target.value;
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(currentObj));
-}
+// function onFormElInput(e) {
+//   const formData = new FormData(refs.formEl);
+//   const data = {};
+//   for (const [key, value] of formData.entries()) {
+//     data[key] = value;
+//   }
+
+//   const currentObj = getCurrentObj(STORAGE_KEY);
+//   currentObj.email = data.email;
+//   currentObj.message = data.message;
+//   localStorage.setItem(STORAGE_KEY, JSON.stringify(currentObj));
+// }
 
 function onFormElSubmit(e) {
   e.preventDefault();
