@@ -33,17 +33,22 @@ function getCurrentObj(key) {
   }
 }
 
-function onFormElInput(e) {
-  const currentObj = getCurrentObj(STORAGE_KEY);
-  if (e.target.nodeName === 'INPUT') {
-    currentObj.email = e.target.value;
-  }
-  if (e.target.nodeName === 'TEXTAREA') {
-    currentObj.message = e.target.value;
-  }
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(currentObj));
+const currentObj = getCurrentObj(STORAGE_KEY);
+console.dir(e.target);
+if (e.target.nodeName === 'INPUT' || e.target.nodeName === 'TEXTAREA') {
+  currentObj[e.target.name] = e.target.value;
 }
+localStorage.setItem(STORAGE_KEY, JSON.stringify(currentObj));
 
+// ===============================================================
+// function onFormElInput() {
+//   const currentObj = getCurrentObj(STORAGE_KEY);
+//   currentObj.email = refs.inputEl.value;
+//   currentObj.message = refs.textareaEl.value;
+//   localStorage.setItem(STORAGE_KEY, JSON.stringify(currentObj));
+// }
+
+/* =====================   FormData   =========================== */
 // function onFormElInput(e) {
 //   const formData = new FormData(refs.formEl);
 //   const data = {};
@@ -55,7 +60,6 @@ function onFormElInput(e) {
 //   currentObj.email = data.email;
 //   currentObj.message = data.message;
 //   localStorage.setItem(STORAGE_KEY, JSON.stringify(currentObj));
-// }
 
 function onFormElSubmit(e) {
   e.preventDefault();
